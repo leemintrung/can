@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 Data</title>
+</head>
+<body>
+    <h2>Dữ liệu từ ESP32</h2>
+    <div id="data"></div>
+
+    <script>
+        async function fetchData() {
+            const url = "https://script.google.com/macros/s/AKfycbzrr8pGEzWe_gU10767UgUA7ntsMgAvzi6L8y4tLKYsQmwRiI0yDnRmeb74WPZJwYIfyQ/exec"; // API Google Sheets
+            const response = await fetch(url);
+            const data = await response.json();
+
+            let output = "<table border='1'><tr><th>Cân Nặng</th><th>Chiều dài </th><th>Chiều Rộng</th></tr>";
+            data.slice(-5).forEach(row => { 
+                output += `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td></tr>`;
+            });
+            output += "</table>";
+
+            document.getElementById("data").innerHTML = output;
+        }
+
+        setInterval(fetchData, 1000); // Cập nhật mỗi giây
+        fetchData();
+    </script>
+</body>
+</html>
